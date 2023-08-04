@@ -1,8 +1,13 @@
 #include <iostream>
+
 #include "CopyingAndCopyConstructors.h"
+#include "VectorOptimization.h"
+
 
 int main()
 {
     CopyingAndCopyConstructors();
-    std::cin.get();
+    VectorOptimization();
+
+	std::cin.get();
 }

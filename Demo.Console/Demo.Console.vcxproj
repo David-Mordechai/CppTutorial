@@ -129,10 +129,9 @@
   <ItemGroup>
     <ClCompile Include="CopyingAndCopyConstructors.h" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MyString.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyString.h" />
+    <ClInclude Include="VectorOptimization.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
