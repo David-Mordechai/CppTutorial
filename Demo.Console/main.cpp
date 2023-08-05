@@ -1,3 +1,4 @@
+#include <functional>
 #include <iostream>
 
 #include "CopyingAndCopyConstructors.h"
@@ -11,10 +12,32 @@
 #define LOG(x)
 #endif
 
+namespace func_pointers
+{
+    void print_value(const int value)
+    {
+        std::cout << "Value with PrintValue function: " << value << std::endl;
+    }
+
+    void my_for_each(const std::vector<int>& values, const std::function<void(int)>& func)
+    {
+        for (const int value : values)
+            func(value);
+    }
+}
+
 int main()
 {
     CopyingAndCopyConstructors();
     VectorOptimization();
-
     LOG("Hello");
+
+    const std::vector<int> values = { 1,5,4,2,3 };
+    func_pointers::my_for_each(values, func_pointers::print_value);
+
+    int b = 1;
+    func_pointers::my_for_each(values, [b](const int value)
+    {
+	    std::cout << "Value with lambda: " << value + b << std::endl;
+    });
 }
