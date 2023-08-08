@@ -4,6 +4,7 @@
 #include "CopyingAndCopyConstructors.h"
 #include "VectorOptimization.h"
 
+// macro example
 #ifdef _DEBUG
 // macro example, compiler preprocess
 #define LOG(x) std::cout << (x) << std::endl
