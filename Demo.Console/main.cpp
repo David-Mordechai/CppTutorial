@@ -34,5 +34,7 @@ int main()
 	const auto result = data.value_or("File could not be opened!\n");
 	std::cout << result << std::endl;
 
+	// next lesson 79 -> async
+
 	std::cin.get();
 }
