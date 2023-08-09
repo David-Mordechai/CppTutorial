@@ -28,6 +28,8 @@ int main()
 {
 	constexpr int dimension_size = 10000;
 
+	std::cout << "two dimensional array " << dimension_size << " x " << dimension_size << std::endl;
+	std::cout << "##################################################\n";
 	// scope 1
 	{
 		timer timer("two dimensional array");
@@ -44,20 +46,57 @@ int main()
 		for (int i = 0; i < dimension_size; i++)
 			delete[] a2d[i];
 		delete[] a2d;
-		std::cout << "two dimensional array " << dimension_size << " x " << dimension_size << std::endl;
+		
 	}
 
+	// scope 1.1 better Meir version
+	{
+		timer timer("better Meir version");
+		const auto a2d = new int* [dimension_size];
+
+		for (int i = 0; i < dimension_size; i++)
+			a2d[i] = new int[dimension_size];
+
+		for (int x = 0; x < dimension_size; x++)
+		{
+			auto x_pointer = a2d[x];
+			for (int y = 0; y < dimension_size; y++, x_pointer++)
+				*x_pointer = 2;
+		}
+
+		for (int i = 0; i < dimension_size; i++)
+			delete[] a2d[i];
+		delete[] a2d;
+	}
+
+	std::cout << "\n";
+	std::cout << "one dimensional array " << dimension_size << " * " << dimension_size << std::endl;
+	std::cout << "##################################################\n";
 	// scope 2
 	{
 		timer timer("one dimensional array");
-		int array_size = dimension_size * dimension_size;
-		int* arr = new int[array_size];
+		constexpr int array_size = dimension_size * dimension_size;
+		const auto arr = new int[array_size];
 
 		for (int y = 0; y < dimension_size; y++)
 			for (int x = 0; x < dimension_size; x++)
 				arr[x + y * dimension_size] = 2;
 		
 		delete[] arr;
-		std::cout << "one dimensional array " << dimension_size << " * " << dimension_size << std::endl;
+		
+	}
+
+	// scope 2.1 better Meir version
+	{
+		timer timer("better Meir version");
+		constexpr int array_size = dimension_size * dimension_size;
+		const auto arr = new int[array_size];
+
+		auto arr_pointer = arr;
+		for (int y = 0; y < dimension_size; y++)
+			for (int x = 0; x < dimension_size; x++, arr_pointer++)
+				*arr_pointer = 2;
+
+		delete[] arr;
 	}
 }
