@@ -38,7 +38,6 @@ int main()
 		for (int i = 0; i < dimension_size; i++)
 			a2d[i] = new int[dimension_size];
 	
-
 		for (int y = 0; y < dimension_size; y++)
 			for (int x = 0; x < dimension_size; x++)
 				a2d[x][y] = 2;
@@ -90,12 +89,11 @@ int main()
 	{
 		timer timer("better Meir version");
 		constexpr int array_size = dimension_size * dimension_size;
-		const auto arr = new int[array_size];
+		auto arr = new int[array_size];
 
 		auto arr_pointer = arr;
-		for (int y = 0; y < dimension_size; y++)
-			for (int x = 0; x < dimension_size; x++, arr_pointer++)
-				*arr_pointer = 2;
+		for (int x = 0; x < array_size; x++, arr_pointer++)
+			*arr_pointer = 2;
 
 		delete[] arr;
 	}
