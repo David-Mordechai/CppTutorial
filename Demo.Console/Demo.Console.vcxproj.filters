@@ -18,15 +18,9 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyString.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CopyingAndCopyConstructors.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyString.h">
+    <ClInclude Include="Instrumentor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

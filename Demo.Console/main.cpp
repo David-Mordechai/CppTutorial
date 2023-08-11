@@ -1,40 +1,46 @@
-#include <fstream>
+#include <future>
 #include <iostream>
-#include <tuple>
-#include <optional>
-#include <string>
 
-std::tuple<std::string, int> create_person()
+#include "Instrumentor.h"
+
+// chrome://tracing/ => results.json
+
+#define PROFILING 1
+#if PROFILING
+#define PROFILE_SCOPE(name) instrumentation_timer timer##__LINE__(name)
+#define PROFILE_FUNCTION() PROFILE_SCOPE(__FUNCSIG__)
+#else
+#define PROFILE_FUNCTION()
+#endif
+
+void function_1(const int value)
 {
-	return { "David", 44 };
+	PROFILE_FUNCTION();
+	std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+	std::cout << "function_1 finished, value: " << value << std::endl;
 }
 
-std::optional<std::string> read_file_as_string(const std::string& filepath)
+void function_2()
 {
-	if(std::ifstream stream(filepath); stream)
-	{
-		//read file
-		std::string result;
-		std::getline(stream, result);
-		stream.close();
-		return result;
-	}
+	PROFILE_FUNCTION();
+	std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+	std::cout << "function_2 finished" << std::endl;
 
-	return {};
+}
+
+void run_benchmarks()
+{
+	PROFILE_FUNCTION();
+	std::cout << "Running Benchmarks...\n";
+	std::thread thread1([] {function_1(2); });
+	function_2();
+
+	thread1.join();
 }
 
 int main()
 {
-	// structured bindings -> tuple - lesson 75
-	auto [name, age] = create_person();
-	std::cout << "Name: " << name << " Age: " << age << std::endl;
-
-	// how to deal with optional data
-	const auto data = read_file_as_string("data.txt");
-	const auto result = data.value_or("File could not be opened!\n");
-	std::cout << result << std::endl;
-
-	// next lesson 79 -> async
-
-	std::cin.get();
+	instrumentor::get().begin_session("Profile");
+	run_benchmarks();
+	instrumentor::get().end_session();
 }
