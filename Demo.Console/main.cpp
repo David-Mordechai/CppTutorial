@@ -35,6 +35,5 @@ int main()
 	std::cout << result << std::endl;
 
 	// next lesson 79 -> async
-
 	std::cin.get();
 }
