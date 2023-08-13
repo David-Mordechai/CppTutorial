@@ -25,7 +25,7 @@ struct profile_result
 {
     std::string name;
     long long start, end;
-    uint32_t thread_id;
+    size_t thread_id;
 };
 
 struct instrumentation_session
@@ -124,7 +124,7 @@ public:
 	    const long long start = std::chrono::time_point_cast<std::chrono::microseconds>(m_start_time_point_).time_since_epoch().count();
 	    const long long end = std::chrono::time_point_cast<std::chrono::microseconds>(end_time_point).time_since_epoch().count();
 
-	    const uint32_t thread_id = std::hash<std::thread::id>{}(std::this_thread::get_id());
+	    const auto thread_id = std::hash<std::thread::id>{}(std::this_thread::get_id());
         instrumentor::get().write_profile({ m_name_, start, end, thread_id });
 
         m_stopped_ = true;
