@@ -21,6 +21,39 @@
 
 #include <thread>
 
+struct allocation_metrics
+{
+    size_t total_allocated = 0;
+    size_t total_freed = 0;
+
+    [[nodiscard]] size_t current_usage() const
+    {
+        return total_allocated - total_freed;
+    }
+};
+
+static allocation_metrics s_allocation_metrics;
+
+void* operator new(const size_t size)
+{
+    s_allocation_metrics.total_allocated += size;
+    return malloc(size);
+}
+
+void operator delete(void* memory, const size_t size)
+{
+    s_allocation_metrics.total_freed += size;
+    free(memory);
+}
+
+static void print_memory_summary()
+{
+    std::cout << "\nmemory usage summary\n\n";
+    std::cout << "Allocated: " << s_allocation_metrics.total_allocated << " bytes\n";
+    std::cout << "Freed: " << s_allocation_metrics.total_freed << " bytes\n";
+    std::cout << "Current usage: " << s_allocation_metrics.current_usage() << " bytes\n";
+}
+
 struct profile_result
 {
     std::string name;
@@ -55,6 +88,8 @@ public:
         delete m_current_session_;
         m_current_session_ = nullptr;
         m_profile_count_ = 0;
+
+        print_memory_summary();
     }
 
     void write_profile(const profile_result& result)
