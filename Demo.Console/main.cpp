@@ -25,7 +25,6 @@ void function_2()
 	PROFILE_FUNCTION();
 	std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 	std::cout << "function_2 finished" << std::endl;
-
 }
 
 void run_benchmarks()
